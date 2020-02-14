@@ -1,11 +1,18 @@
-from tkinter import Label, Button, Tk, Listbox, END
+from tkinter import Label, Button, Tk, Listbox, END, Frame, LEFT, BOTTOM
 import boto3
 
-window = Tk()
-window.title("AWS")
-window.geometry()
-label = Label(window, bg='white')
-listbox = Listbox(window, width=85)
+root = Tk()
+root.title("AWS")
+root.geometry()
+
+frame = Frame(root)
+frame.pack(side=BOTTOM)
+
+label = Label(root, bg='white')
+label.pack()
+
+listbox = Listbox(root, width=85)
+listbox.pack()
 
 
 def create_data():
@@ -34,12 +41,12 @@ def describe():
                                    " | -------------------------------------------------- |")
 
 
-label.pack()
-listbox.pack()
+desc = Button(frame, text="Instances", command=describe)
+cre = Button(frame, text="Create")
 
-btn = Button(window, text="Instances", command=describe)
-btn.pack()
+desc.pack(side=LEFT)
+cre.pack(side=LEFT)
 
 describe()
 
-window.mainloop()
+root.mainloop()
