@@ -1,1 +1,1 @@
-# aws_gui
+# GUI for AWS
