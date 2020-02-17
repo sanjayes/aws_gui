@@ -1,27 +1,35 @@
-from tkinter import Tk, Listbox, Label, END
-import threading
-
+from tkinter import Label, Button, Tk, Listbox, END, Frame, LEFT, BOTTOM, simpledialog
 import boto3
+import threading
+from ec2_ import create
 
 root = Tk()
-root.title("Amazon Web Services")
+root.title("AWS")
+root.geometry()
 
-label = Label(root)
+frame = Frame(root)
+frame.pack(side=BOTTOM)
+
+label = Label(root, bg='white')
 label.pack()
 
 listbox = Listbox(root, width=85)
 listbox.pack()
 
 
-def main():
+def create_data():
+    # pop = Tk()
+    # pop.title("Instance Details")
+    # pop.geometry()
+    simpledialog.askstring("Instance Details", "Instance type")
+
+
+def describe():
     listbox.delete(0, END)
     ec2 = boto3.client('ec2')
-
-    # Examples
     # print(ec2.describe_instances()['Reservations'][0]['Instances'][0]['InstanceId'])
     # print(ec2.describe_instances()['Reservations'][0]['Instances'][0]['SecurityGroups'][0]['GroupId'])
     # print(ec2.describe_instances()['Reservations'][0]['Instances'][0]['State']['Name'])
-
     label.config(text=(
         "|         Instance ID         |      Public IP      |    State    |                                        Public DNS                                 |"))
     for a in ec2.describe_instances()['Reservations']:
@@ -37,13 +45,13 @@ def main():
                     listbox.insert(END, "| " + b['InstanceId'] + " | -------------- |  " + b['State']['Name'] +
                                    " | -------------------------------------------------- |")
 
-    # https://stackoverflow.com/questions/14694408/runtimeerror-main-thread-is-not-in-main-loop
-    sync = threading.Timer(0.5, main)
-    sync.setDaemon(True)
-    sync.start()
 
+threading.Timer(5.0, describe()).start()
 
-if __name__ == '__main__':
-    main()
+desc = Button(frame, text="Instances", command=describe)
+cre = Button(frame, text="Create", command=create)
+
+desc.pack(side=LEFT)
+cre.pack(side=LEFT)
 
 root.mainloop()

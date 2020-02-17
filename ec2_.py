@@ -1,9 +1,17 @@
 import boto3
 
-import gui
+from tkinter import simpledialog
 
 
-def create(img_id, inst_type, key, s_g, tag, c):
+# def create(img_id, inst_type, key, s_g, tag, c):
+def create():
+    img_id = simpledialog.askstring("Instance Details", "Image ID:")
+    inst_type = simpledialog.askstring("Instance Details", "Instance type:")
+    key = simpledialog.askstring("Instance Details", "Key:")
+    tag = simpledialog.askstring("Instance Details", "Tag:")
+    s_g = simpledialog.askstring("Instance Details", "Security Group:")
+    c = simpledialog.askinteger("Instance Details", "Max Count:")
+
     ec2 = boto3.resource('ec2')
     ec2.create_instances(
         ImageId=img_id,

@@ -1,6 +1,6 @@
 import boto3
 # import pprint
-from aws import ec2
+# from aws import ec2
 
 
 def describe():
